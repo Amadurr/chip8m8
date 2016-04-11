@@ -13,6 +13,14 @@ int main(int argc, char* argv[])
     {
         printf("EPICFAIL");
     }
+    while(CH.run)
+    {
+        CH.opcode = 0x1234;
+        if((*p[(CH.opcode&0xf000)>>12])(CH,CH.opcode))
+        {
+            printf("opcode: %x failed", CH.opcode);
+        }
+    }
     getchar();
     return 0;
 }
