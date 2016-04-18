@@ -75,3 +75,16 @@ bool op7(CH8 CH,unsigned short opcode)
     CH.pc += 2;
     return true;
 }
+bool opA(CH8 CH,unsigned short opcode) //Sets I to the address NNN.
+{
+CH.I = opcode & 0x0FFF;
+CH.pc += 2;
+}
+bool opB(CH8 CH,unsigned short opcode) //Jumps to the address NNN plus V0.
+{
+    CH.pc = (opcode & 0x0FFF) + CH.V[0];
+}
+bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
+{
+    CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
+}
