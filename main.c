@@ -13,15 +13,19 @@ int main(int argc, char* argv[])
     {
         printf("EPICFAIL");
     }
+
+    CH.run = true;
+
+
     while(CH.run)
     {
-        CH.opcode = 0x1234;
-        if((*p[(CH.opcode&0xf000)>>12])(CH,CH.opcode))
-        {
-            printf("opcode: %x failed", CH.opcode);
-        }
+        //Fetch opcode
+        CH.opcode = CH.Memory[CH.pc]<<8 | CH.Memory[CH.pc+1];
+
+        //process opcode
+        opcodes[(CH.opcode&0xF000)>>12](&CH, CH.opcode);
+
+
     }
-    getchar();
     return 0;
-    int balleSvette = 1000;
 }
