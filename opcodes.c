@@ -3,6 +3,7 @@
     CODE HERE
 } */
 
+
 #include "app.h"
 
 bool op0(CH8 CH,unsigned short opcode) {
@@ -75,4 +76,34 @@ bool op7(CH8 CH,unsigned short opcode)
     CH.pc += 2;
     return true;
 }
+<<<<<<< HEAD
+=======
+bool opA(CH8 CH,unsigned short opcode) //Sets I to the address NNN.
+{
+CH.I = opcode & 0x0FFF;
+CH.pc += 2;
+}
+bool opB(CH8 CH,unsigned short opcode) //Jumps to the address NNN plus V0.
+{
+    CH.pc = (opcode & 0x0FFF) + CH.V[0];
+}
+bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
+{
+    CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
+}
+bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
+{
+    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] !== 0)
+        CH.pc += 4;
+    else
+        CH.pc += 2;
+}
+bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
+{
+    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] == 0)
+        CH.pc += 4;
+    else
+        CH.pc += 2;
+}
+>>>>>>> opcodeABC
 
