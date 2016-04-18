@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
         CH.opcode = CH.Memory[CH.pc]<<8 | CH.Memory[CH.pc+1];
 
         //process opcode
-        opcodes[(CH.opcode&0xF000)>>12](&CH, CH.opcode);
+        CH.run = opcodes[(CH.opcode&0xF000)>>12](&CH, CH.opcode);
 
 
     }
