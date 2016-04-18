@@ -1,6 +1,9 @@
 //
 // Created by Kringle on 18/04/2016.
 //
+<<<<<<< HEAD
+
+=======
 #include "app.h"
 
 
@@ -37,3 +40,4 @@ bool load(CH8 *CH, const char *filename)
 
     return true;
 }
+>>>>>>> 26d8ab7a9fea6878c0daa5b440bad7a772ec7fdf
