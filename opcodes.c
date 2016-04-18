@@ -89,4 +89,18 @@ bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and 
 {
     CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
 }
+bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
+{
+    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] !== 0)
+        CH.pc += 4;
+    else
+        CH.pc += 2;
+}
+bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
+{
+    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] == 0)
+        CH.pc += 4;
+    else
+        CH.pc += 2;
+}
 
