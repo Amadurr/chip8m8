@@ -4,6 +4,7 @@
 } */
 
 
+#include <stdlib.h>
 #include "app.h"
 
 bool op0(CH8 CH,unsigned short opcode) {
@@ -76,8 +77,7 @@ bool op7(CH8 CH,unsigned short opcode)
     CH.pc += 2;
     return true;
 }
-<<<<<<< HEAD
-=======
+
 bool opA(CH8 CH,unsigned short opcode) //Sets I to the address NNN.
 {
 CH.I = opcode & 0x0FFF;
@@ -93,7 +93,7 @@ bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and 
 }
 bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
 {
-    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] !== 0)
+    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] != 0)
         CH.pc += 4;
     else
         CH.pc += 2;
@@ -105,5 +105,5 @@ bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the ke
     else
         CH.pc += 2;
 }
->>>>>>> opcodeABC
+
 
