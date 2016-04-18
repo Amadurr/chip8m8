@@ -89,3 +89,13 @@ bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and 
 {
     CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
 }
+bool op1(CH8 CH,unsigned short opcode) //Jumps to the address NNN
+{
+    CH.pc = opcode & 0x0FFF;
+}
+bool opB(CH8 CH,unsigned short opcode) //Calls subroutine at NNN.
+{
+    CH.stack[CH.sp] = CH.pc;
+    ++CH.sp;
+    CH.pc = opcode & 0x0FFF;
+}
