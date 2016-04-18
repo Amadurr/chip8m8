@@ -160,56 +160,60 @@ bool arit0(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
-<<<<<<< HEAD
 
-bool opA(CH8 CH,unsigned short opcode) //Sets I to the address NNN.
+bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
 {
-CH.I = opcode & 0x0FFF;
-CH.pc += 2;
+CH->I = opcode & 0x0FFF;
+CH->pc += 2;
 }
-bool opB(CH8 CH,unsigned short opcode) //Jumps to the address NNN plus V0.
+
+bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
 {
-    CH.pc = (opcode & 0x0FFF) + CH.V[0];
+    CH->pc = (opcode & 0x0FFF) + CH->V[0];
 }
-bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
+
+bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
 {
-    CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
+    CH->V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
 }
-bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
+
+bool opEX9E(CH8 *CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
 {
-    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] != 0)
-        CH.pc += 4;
+    if(CH->key[CH->V[(opcode & 0x0F00) >> 8]] != 0)
+        CH->pc += 4;
     else
-        CH.pc += 2;
+        CH->pc += 2;
 }
-bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
+
+bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
 {
-    if(CH.key[CH.V[(opcode & 0x0F00) >> 8]] == 0)
-        CH.pc += 4;
+    if(CH->key[CH->V[(opcode & 0x0F00) >> 8]] == 0)
+        CH->pc += 4;
     else
-        CH.pc += 2;
+        CH->pc += 2;
 }
 
-
-=======
 bool arit1(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) | (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
+
 bool arit2(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) & (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
+
 bool arit3(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) ^ (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
+
 bool arit4(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     if (CH->V[(opcode & 0x0f00) >> 8] + (CH->V[(opcode & 0x00f0) >> 4]) >= 256)
@@ -220,6 +224,7 @@ bool arit4(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
+
 bool arit5(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     if (CH->V[(opcode & 0x0f00) >> 8] < CH->V[(opcode & 0x00f0) >> 4])
@@ -230,6 +235,7 @@ bool arit5(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
+
 bool arit6(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] & 0x1;
@@ -238,6 +244,7 @@ bool arit6(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
+
 bool arit7(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     if (CH->V[(opcode & 0x0f00) >> 8] > CH->V[(opcode & 0x00f0) >> 4])
@@ -248,6 +255,7 @@ bool arit7(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
+
 bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] >> 7;
@@ -255,4 +263,4 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
->>>>>>> 26d8ab7a9fea6878c0daa5b440bad7a772ec7fdf
+
