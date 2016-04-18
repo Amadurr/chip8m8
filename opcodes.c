@@ -75,3 +75,4 @@ bool op7(CH8 CH,unsigned short opcode)
     CH.pc += 2;
     return true;
 }
+
