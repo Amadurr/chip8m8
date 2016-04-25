@@ -167,14 +167,17 @@ bool opA(CH8 CH,unsigned short opcode) //Sets I to the address NNN.
 {
 CH.I = opcode & 0x0FFF;
 CH.pc += 2;
+return true;
 }
 bool opB(CH8 CH,unsigned short opcode) //Jumps to the address NNN plus V0.
 {
     CH.pc = (opcode & 0x0FFF) + CH.V[0];
+    return true;
 }
 bool opC(CH8 CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
 {
     CH.V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
+    return true;
 }
 bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
 {
@@ -182,6 +185,7 @@ bool opEX9E(CH8 CH,unsigned short opcode) //Skips the next instruction if the ke
         CH.pc += 4;
     else
         CH.pc += 2;
+    return true;
 }
 bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
 {
@@ -189,6 +193,7 @@ bool opEXA1(CH8 CH,unsigned short opcode) //Skips the next instruction if the ke
         CH.pc += 4;
     else
         CH.pc += 2;
+    return true;
 }
 
 
@@ -199,16 +204,19 @@ bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
 {
 CH->I = opcode & 0x0FFF;
 CH->pc += 2;
+    return true;
 }
 
 bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
 {
     CH->pc = (opcode & 0x0FFF) + CH->V[0];
+    return true;
 }
 
 bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
 {
     CH->V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
+    return true;
 }
 
 bool opEX9E(CH8 *CH,unsigned short opcode) //Skips the next instruction if the key stored in VX is pressed
@@ -217,6 +225,7 @@ bool opEX9E(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
         CH->pc += 4;
     else
         CH->pc += 2;
+    return true;
 }
 
 bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
@@ -225,6 +234,7 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
         CH->pc += 4;
     else
         CH->pc += 2;
+    return true;
 }
 
 >>>>>>> testtest
