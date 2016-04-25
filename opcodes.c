@@ -298,6 +298,60 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
+
+bool opF(CH8 *CH,unsigned short opcode)
+{
+    switch (opcode & 0x00ff) {
+        case 0x0007: //FX07: Sets VX to the value of the delay timer
+            CH.V[(opcode & 0x0f00) >> 8] = CH.delay_timer;
+            CH.pc += 2;
+            break;
+
+            /*case 0x000A: //FX0A: A key press awaited, then stored in VX
+                trenger noe kode for å få key-input for denne
+            break;*/
+
+        case 0x0015: //FX15: sets delay timer to VX
+            CH.delay_timer = CH.V[(opcode & 0x0f00) >> 8];
+            CH.pc += 2;
+            break;
+
+        case 0x0018: //FX18: Sets the sound timer to VX
+            CH.sound_timer = CH.V[(opcode & 0x0f00) >> 8];
+            CH.pc += 2;
+            break;
+
+        case 0x001E: //FX1E: adds VX to i
+            CH.I += CH.V[(opcode & 0x0f00) >> 8];
+            CH.pc += 2;
+            break;
+
+            /* case 0x0029: //FX29: Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
+
+             break;
+
+             case 0x0033: //FX33: Stores the binary-coded decimal representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.)
+
+             break; her må det tenkes litt mer,ja*/
+
+        case 0x0055: //FX55: Stores V0 to VX (including VX) in memory starting at address I
+            for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+                CH.Memory[CH.I + i] = CH.V[i];
+            CH.pc += 2;
+            break;
+
+        case 0x0065: //FX65: Fills V0 to VX (including VX) with values from memory starting at address I
+            for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+                CH.V[i] = CH.Memory[CH.I + i];
+            CH.pc += 2;
+            break;
+
+        default: printf("Wrong opcode: %X\n", opcode);
+
+
+    }
+    return true;
+}
 <<<<<<< HEAD
 >>>>>>> testtest
 =======
