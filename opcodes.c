@@ -19,7 +19,7 @@ bool(*opcodes[16])(CH8 *CH,unsigned short opcode) =
         op0, op1, op2, op3,
         op4, op5, op6, op7,
         op8, op9, opA, opB,
-        opC, opD, opE/*, opF*/
+        opC, opD, opE, opF
         };
 
 bool(*arit[16])(CH8 *CH,unsigned short opcode) =
@@ -30,7 +30,7 @@ bool(*arit[16])(CH8 *CH,unsigned short opcode) =
         cpuNULL, cpuNULL, cpuNULL,
         cpuNULL, cpuNULL, aritE
         };
-/*
+
 bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
         {
                 {
@@ -68,9 +68,9 @@ bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
                 cpuNULL, FX65, cpuNULL, cpuNULL,
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL,
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL
-                },
+                }
         };
-*/
+
 
 bool op0(CH8 *CH,unsigned short opcode) {
     switch (opcode & 0x000F) {
@@ -214,38 +214,10 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
     return true;
 }
 
-
-
-
-
-
-
-
-bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
-{
-CH->I = opcode & 0x0FFF;
-CH->pc += 2;
-    return true;
-}
-
-bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
-{
-    CH->pc = (opcode & 0x0FFF) + CH->V[0];
-    return true;
-}
-
-bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
-{
-    CH->V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
-    return true;
-}
-
-
 //UuW
 bool opD(CH8 *CH,unsigned short opcode)
 {
     unsigned char sprite;
-    unsigned short shift;
     unsigned short x = CH->V[(opcode & 0x0F00) >> 8];
     unsigned short y = CH->V[(opcode & 0x00F0) >> 4];
     for(int yLine = 0; yLine < (opcode&0x000F); yLine++)
@@ -280,13 +252,13 @@ bool opE(CH8 *CH, unsigned short opcode)
     else
         return false;
 }
-/*
+
 bool opF(CH8 *CH, unsigned short opcode)
 {
-    FX[(opcode&0x00F0)][opcode&0x000F](CH, CH->opcode);
+    FX[(opcode & 0x00F0) >> 4 ][opcode & 0x000F](CH, CH->opcode);
     return true;
 }
- */
+
 bool opEX9E(CH8 *CH,unsigned short opcode)//Skips the next instruction if the key stored in VX is pressed
 
 {
@@ -303,6 +275,59 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
         CH->pc += 4;
     else
         CH->pc += 2;
+    return true;
+}
+//EMPTY F opcodes START
+bool FX07(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX0A(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX15(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX18(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX1E(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX29(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX55(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+bool FX65(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+
+//EMPTY F opcodes START END
+
+bool FX33(CH8 *CH,unsigned short opcode)
+{
+    unsigned short Vval = CH->V[(opcode & 0x0F00) >> 8];
+    CH->Memory[CH->I] = Vval /100;
+    CH->Memory[CH->I+1] = (Vval % 100) / 10;
+    CH->Memory[CH->I+2] = Vval % 10;
+    CH->pc += 2;
     return true;
 }
 

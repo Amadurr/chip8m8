@@ -35,6 +35,7 @@ typedef struct{
 
 bool(*opcodes[16])(CH8 *CH,unsigned short opcode);
 bool(*arit[16])(CH8 *CH,unsigned short opcode);
+bool(*FX[7][16])(CH8 *CH,unsigned short opcode);
 
 bool load(CH8* CH,const char *filename);
 
@@ -74,7 +75,6 @@ bool arit4(CH8 *CH,unsigned short opcode);
 bool arit5(CH8 *CH,unsigned short opcode);
 bool arit6(CH8 *CH,unsigned short opcode);
 bool arit7(CH8 *CH,unsigned short opcode);
-bool arit8(CH8 *CH,unsigned short opcode);
 bool aritE(CH8 *CH,unsigned short opcode);
 
 bool FX07(CH8 *CH,unsigned short opcode);
