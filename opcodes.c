@@ -19,7 +19,7 @@ bool(*opcodes[16])(CH8 *CH,unsigned short opcode) =
         op0, op1, op2, op3,
         op4, op5, op6, op7,
         op8, op9, opA, opB,
-        opC, opD, opE/*, opF*/
+        opC, opD, opE, opF
         };
 
 bool(*arit[16])(CH8 *CH,unsigned short opcode) =
@@ -30,7 +30,7 @@ bool(*arit[16])(CH8 *CH,unsigned short opcode) =
         cpuNULL, cpuNULL, cpuNULL,
         cpuNULL, cpuNULL, aritE
         };
-/*
+
 bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
         {
                 {
@@ -68,9 +68,9 @@ bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
                 cpuNULL, FX65, cpuNULL, cpuNULL,
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL,
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL
-                },
+                }
         };
-*/
+
 
 bool op0(CH8 *CH,unsigned short opcode) {
     switch (opcode & 0x000F) {
@@ -197,7 +197,6 @@ bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
     CH->pc += 2;
     return true;
 }
-
 bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
 {
     CH->pc = (opcode & 0x0FFF) + CH->V[0];
@@ -215,6 +214,7 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
 bool opD(CH8 *CH,unsigned short opcode)
 {
     unsigned char sprite;
+
 //    unsigned short shift;
     unsigned short x = CH->V[(opcode & 0x0F00) >> 8];
     unsigned short y = CH->V[(opcode & 0x00F0) >> 4];
@@ -250,13 +250,13 @@ bool opE(CH8 *CH, unsigned short opcode)
     else
         return false;
 }
-/*
+
 bool opF(CH8 *CH, unsigned short opcode)
 {
-    FX[(opcode&0x00F0)][opcode&0x000F](CH, CH->opcode);
+    FX[(opcode & 0x00F0) >> 4 ][opcode & 0x000F](CH, CH->opcode);
     return true;
 }
- */
+
 bool opEX9E(CH8 *CH,unsigned short opcode)//Skips the next instruction if the key stored in VX is pressed
 
 {
@@ -275,6 +275,75 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
         CH->pc += 2;
     return true;
 }
+
+bool FX07(CH8 *CH,unsigned short opcode)
+{
+    CH->V[(opcode & 0x0f00) >> 8] = CH->DT;
+    CH->pc += 2;
+    return true;
+}
+
+bool FX0A(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+
+bool FX15(CH8 *CH,unsigned short opcode)
+{
+    CH->DT = CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return true;
+}
+
+bool FX18(CH8 *CH,unsigned short opcode)
+{
+    CH->ST = CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return true;
+}
+
+bool FX1E(CH8 *CH,unsigned short opcode)
+{
+    CH->I += CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return false;
+}
+
+bool FX29(CH8 *CH,unsigned short opcode)
+{
+
+    return false;
+}
+
+bool FX33(CH8 *CH,unsigned short opcode)
+{
+    unsigned short Vval = CH->V[(opcode & 0x0F00) >> 8];
+    CH->Memory[CH->I] = Vval /100;
+    CH->Memory[CH->I+1] = (Vval % 100) / 10;
+    CH->Memory[CH->I+2] = Vval % 10;
+    CH->pc += 2;
+    return true;
+}
+
+bool FX55(CH8 *CH,unsigned short opcode)
+{
+    for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+        CH->Memory[CH->I + i] = CH->V[i];
+    CH->pc += 2;
+    return true;
+}
+
+bool FX65(CH8 *CH,unsigned short opcode)
+{
+    for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+        CH->V[i] = CH->Memory[CH->I + i];
+    CH->pc += 2;
+    return true;
+}
+
+
+
 
 bool arit0(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
@@ -352,67 +421,6 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] << 1;
     CH->pc += 2;
     return true;
-<<<<<<< HEAD
-}
-=======
 }
 
-bool opF(CH8 *CH,unsigned short opcode)
-{
-    switch (opcode & 0x00ff) {
-        case 0x0007: //FX07: Sets VX to the value of the delay timer
-            CH->V[(opcode & 0x0f00) >> 8] = CH->DT;
-            CH->pc += 2;
-            break;
-
-            /*case 0x000A: //FX0A: A key press awaited, then stored in VX
-                trenger noe kode for å få key-input for denne
-            break;*/
-
-        case 0x0015: //FX15: sets delay timer to VX
-            CH->DT = CH->V[(opcode & 0x0f00) >> 8];
-            CH->pc += 2;
-            break;
-
-        case 0x0018: //FX18: Sets the sound timer to VX
-            CH->ST = CH->V[(opcode & 0x0f00) >> 8];
-            CH->pc += 2;
-            break;
-
-        case 0x001E: //FX1E: adds VX to i
-            CH->I += CH->V[(opcode & 0x0f00) >> 8];
-            CH->pc += 2;
-            break;
-
-            /* case 0x0029: //FX29: Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
-
-             break;
-
-             case 0x0033: //FX33: Stores the binary-coded decimal representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.)
-
-             break; her må det tenkes litt mer,ja*/
-
-        case 0x0055: //FX55: Stores V0 to VX (including VX) in memory starting at address I
-            for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
-                CH->Memory[CH->I + i] = CH->V[i];
-            CH->pc += 2;
-            break;
-
-        case 0x0065: //FX65: Fills V0 to VX (including VX) with values from memory starting at address I
-            for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
-                CH->V[i] = CH->Memory[CH->I + i];
-            CH->pc += 2;
-            break;
-
-        default: printf("Wrong opcode: %X\n", opcode);
-
-
-    }
-    return true;
 }
-<<<<<<< HEAD
->>>>>>> testtest
-=======
-
->>>>>>> testtest
->>>>>>> fapcodes
