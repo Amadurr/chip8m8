@@ -39,6 +39,17 @@ int main(int argc, char* argv[])
             printf("-------------\n-------------\n");
             CH.drawFlag = false;
         }
+
+        if (CH.DT != 0)
+        {
+            CH.DT -= 1;
+        }
+
+        if (CH.ST != 0)
+        {
+            // Do Beep
+            CH.ST -= 1;
+        }
     }
     return 0;
 }

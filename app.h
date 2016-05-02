@@ -21,8 +21,8 @@ typedef struct{
     unsigned char key[16];
     unsigned char gfx[64 * 32];
     unsigned char V[16];
-    unsigned char delay_timer;
-    unsigned char sound_timer;
+    unsigned char DT; // Delay Timer
+    unsigned char ST; // Sound Timer
 
     int screenWidth;
     int screenHeight;

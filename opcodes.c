@@ -215,7 +215,7 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
 bool opD(CH8 *CH,unsigned short opcode)
 {
     unsigned char sprite;
-    unsigned short shift;
+//    unsigned short shift;
     unsigned short x = CH->V[(opcode & 0x0F00) >> 8];
     unsigned short y = CH->V[(opcode & 0x00F0) >> 4];
     for(int yLine = 0; yLine < (opcode&0x000F); yLine++)
