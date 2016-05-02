@@ -25,8 +25,20 @@ int main(int argc, char* argv[])
         //process opcode
         CH.run = opcodes[(CH.opcode&0xF000)>>12](&CH, CH.opcode);
 
-
+        //redraw if needed
+        if(CH.drawFlag == true)
+        {
+            //proper render function here
+            printf("-------------\n-------------\n");
+            printf("screendump..\n");
+            for(int y = 0; y < 32;y++) {
+                for (int x = 0; x < 64; x++)
+                    printf("%2x", CH.gfx[(64 * y) + x]);
+                printf("\n");
+            }
+            printf("-------------\n-------------\n");
+            CH.drawFlag = false;
+        }
     }
     return 0;
-    int balleSvette = 1000;
 }

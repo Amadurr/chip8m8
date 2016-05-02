@@ -39,4 +39,3 @@ bool load(CH8 *CH, const char *filename)
 
     return true;
 }
-
