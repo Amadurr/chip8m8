@@ -1,9 +1,7 @@
 //
 // Created by Kringle on 02/05/2016.
 //
-<<<<<<< HEAD
 
-=======
 #include "app.h"
 
 
@@ -36,4 +34,3 @@ bool gfxInit(CH8* CH)
     printf("Using opengl version %s.\n", glGetString(GL_VERSION));
     return true;
 }
->>>>>>> a363ddba87d3b2b1d394837d5fcf161c3406388a

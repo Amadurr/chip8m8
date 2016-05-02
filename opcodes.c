@@ -422,4 +422,4 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     return true;
 }
 
-}
+
