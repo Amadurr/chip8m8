@@ -211,26 +211,6 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
 }
 
 
-bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
-{
-CH->I = opcode & 0x0FFF;
-CH->pc += 2;
-    return true;
-}
-
-bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
-{
-    CH->pc = (opcode & 0x0FFF) + CH->V[0];
-    return true;
-}
-
-bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
-{
-    CH->V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
-    return true;
-}
-
-
 //UuW
 bool opD(CH8 *CH,unsigned short opcode)
 {
