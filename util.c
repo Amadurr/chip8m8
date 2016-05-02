@@ -3,6 +3,7 @@
 //
 
 #include "app.h"
+#include <stdlib.h>
 
 
 bool load(CH8 *CH, const char *filename)
@@ -35,6 +36,7 @@ bool load(CH8 *CH, const char *filename)
         printf("ROM too big!");
     fclose(fp);
     free(buffer);
+
 
     return true;
 }

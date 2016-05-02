@@ -191,11 +191,6 @@ bool op9(CH8 *CH, unsigned short opcode)
 }
 
 
-
-
-
-
-
 bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
 {
     CH->I = opcode & 0x0FFF;
@@ -218,6 +213,8 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
 bool opD(CH8 *CH,unsigned short opcode)
 {
     unsigned char sprite;
+
+//    unsigned short shift;
     unsigned short x = CH->V[(opcode & 0x0F00) >> 8];
     unsigned short y = CH->V[(opcode & 0x00F0) >> 4];
     for(int yLine = 0; yLine < (opcode&0x000F); yLine++)
@@ -277,49 +274,46 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
         CH->pc += 2;
     return true;
 }
-//EMPTY F opcodes START
+
 bool FX07(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    CH->V[(opcode & 0x0f00) >> 8] = CH->DT;
+    CH->pc += 2;
+    return true;
 }
+
 bool FX0A(CH8 *CH,unsigned short opcode)
 {
 
     return false;
 }
+
 bool FX15(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    CH->DT = CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return true;
 }
+
 bool FX18(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    CH->ST = CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return true;
 }
+
 bool FX1E(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    CH->I += CH->V[(opcode & 0x0f00) >> 8];
+    CH->pc += 2;
+    return true;
 }
+
 bool FX29(CH8 *CH,unsigned short opcode)
 {
 
     return false;
 }
-bool FX55(CH8 *CH,unsigned short opcode)
-{
-
-    return false;
-}
-bool FX65(CH8 *CH,unsigned short opcode)
-{
-
-    return false;
-}
-
-//EMPTY F opcodes START END
 
 bool FX33(CH8 *CH,unsigned short opcode)
 {
@@ -330,6 +324,25 @@ bool FX33(CH8 *CH,unsigned short opcode)
     CH->pc += 2;
     return true;
 }
+
+bool FX55(CH8 *CH,unsigned short opcode)
+{
+    for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+        CH->Memory[CH->I + i] = CH->V[i];
+    CH->pc += 2;
+    return true;
+}
+
+bool FX65(CH8 *CH,unsigned short opcode)
+{
+    for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
+        CH->V[i] = CH->Memory[CH->I + i];
+    CH->pc += 2;
+    return true;
+}
+
+
+
 
 bool arit0(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
@@ -407,4 +420,6 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] << 1;
     CH->pc += 2;
     return true;
+}
+
 }

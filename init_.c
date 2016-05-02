@@ -3,6 +3,9 @@
 //
 #include "app.h"
 
+#include <strings.h>
+
+
 #define AUDIO_PATH "beep.wav"
 
 bool init(CH8 *CH)
@@ -24,36 +27,20 @@ bool init(CH8 *CH)
         CH->gfx[i] = 0;
     for(int i = 0; i < 0x1000 ; i++)
         CH->Memory[i] = 0;
-    CH->drawFlag = true;
+    CH->drawFlag = false;
 
-    load(CH, "test");
+    load(CH, "TETRIS");
 
 
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
+
+    if(!gfxInit(CH))
+
     {
-        printf("SDL failed to initialize: %s\n", SDL_GetError());
+        fprintf(stderr, "failed to initiate GFX");
         return false;
     }
 
 
-
-/*
-    CH->window = SDL_CreateWindow(
-            CH->title,
-            SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED,
-            CH->screenWidth,
-            CH->screenHeight,
-            SDL_WINDOW_OPENGL);
-
-    if(CH->window == NULL)
-    {
-        printf("SDL failed to create window: %s\n", SDL_GetError());
-        return false;
-    }
-
-    CH->renderer = SDL_CreateRenderer(CH->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-*/
 
     return true;
 }
