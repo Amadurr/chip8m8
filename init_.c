@@ -25,9 +25,9 @@ bool init(CH8 *CH)
         CH->gfx[i] = 0;
     for(int i = 0; i < 0x1000 ; i++)
         CH->Memory[i] = 0;
-    CH->drawFlag = true;
+    CH->drawFlag = false;
 
-    load(CH, "test");
+    load(CH, "TETRIS");
 
     if(!gfxInit(CH))
     {

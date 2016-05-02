@@ -37,5 +37,6 @@ bool load(CH8 *CH, const char *filename)
     fclose(fp);
     free(buffer);
 
+
     return true;
 }
