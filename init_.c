@@ -3,6 +3,9 @@
 //
 #include "app.h"
 #include <strings.h>
+
+#define AUDIO_PATH "beep.wav"
+
 bool init(CH8 *CH)
 {
     CH->window = NULL;
@@ -26,23 +29,11 @@ bool init(CH8 *CH)
 
     load(CH, "test");
 
-    /*
-    if(SDL_Init(SDL_INIT_VIDEO) != 0)
+    if(!gfxInit(CH))
     {
-        printf("SDL failed to initialize: %s\n", SDL_GetError());
+        fprintf(stderr, "failed to initiate GFX");
         return false;
-    }*/
+    }
 
-
-
-    /*
-    CH->window = SDL_CreateWindow(
-            CH->title,
-            SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED,
-            CH->screenWidth,
-            CH->screenHeight,
-            SDL_WINDOW_OPENGL
-    );*/
     return true;
 }

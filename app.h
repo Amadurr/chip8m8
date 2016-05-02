@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <GL/gl.h>
 
 typedef struct{
     char title[200];
@@ -21,18 +22,26 @@ typedef struct{
     unsigned char key[16];
     unsigned char gfx[64 * 32];
     unsigned char V[16];
-    unsigned char DT; // Delay Timer
-    unsigned char ST; // Sound Timer
+    unsigned char DT;
+    unsigned char ST;
 
     int screenWidth;
     int screenHeight;
     bool run;
     bool drawFlag;
 
+    Uint32 time;
+
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_GLContext* gl_context;
+    SDL_AudioSpec* audio;
+    Uint8 *audio_pos;
+    Uint32 audio_len;
 }CH8;
 
+
+// opcodes
 bool(*opcodes[16])(CH8 *CH,unsigned short opcode);
 bool(*arit[16])(CH8 *CH,unsigned short opcode);
 bool(*FX[7][16])(CH8 *CH,unsigned short opcode);
@@ -87,4 +96,13 @@ bool FX33(CH8 *CH,unsigned short opcode);
 bool FX55(CH8 *CH,unsigned short opcode);
 bool FX65(CH8 *CH,unsigned short opcode);
 
+
+//GFX
+bool gfxInit(CH8* CH);
+void pixRender(CH8* CH);
+Uint32 delay(Uint32 time);
+
+
+//loop
+bool loop(CH8* CH);
 #endif //CHIP8_TEMP_APP_H
