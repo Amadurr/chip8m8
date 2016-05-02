@@ -31,6 +31,9 @@ typedef struct{
 
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_AudioSpec* audio;
+    Uint8 *audio_pos;
+    Uint32 audio_len;
 }CH8;
 
 bool(*opcodes[16])(CH8 *CH,unsigned short opcode);
