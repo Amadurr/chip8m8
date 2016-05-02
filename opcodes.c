@@ -160,14 +160,6 @@ bool arit0(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-
-
-=======
-=======
 
 bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
 {
@@ -206,7 +198,6 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
     return true;
 }
 
->>>>>>> testtest
 bool arit1(CH8 *CH,unsigned short opcode) // N = First letter of opcode
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) | (CH->V[(opcode & 0x00f0) >> 4]);
@@ -277,8 +268,3 @@ bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     CH->pc += 2;
     return true;
 }
-<<<<<<< HEAD
->>>>>>> testtest
-=======
-
->>>>>>> testtest

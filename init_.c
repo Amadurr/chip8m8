@@ -2,6 +2,7 @@
 // Created by Kringle on 04/04/2016.
 //
 #include "app.h"
+#include <strings.h>
 bool init(CH8 *CH)
 {
     CH->window = NULL;
