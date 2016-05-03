@@ -147,7 +147,7 @@ bool loop(CH8 *CH)
     }
 
         if (CH->ST != 0) {
-            //do sound
+            printf("Beep");
             CH->ST -= 1;
         }
         if (CH->DT != 0) {
