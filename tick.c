@@ -2,17 +2,15 @@
 // Created by Kringle on 02/05/2016.
 //
 #include "app.h"
-bool loop(CH8 *CH)
-{
+bool loop(CH8 *CH) {
     //Fetch opcode
-    CH->opcode = CH->Memory[CH->pc]<<8 | CH->Memory[CH->pc+1];
+    CH->opcode = CH->Memory[CH->pc] << 8 | CH->Memory[CH->pc + 1];
 
     //process opcode
-    CH->run = opcodes[(CH->opcode&0xF000)>>12](CH, CH->opcode);
+    CH->run = opcodes[(CH->opcode & 0xF000) >> 12](CH, CH->opcode);
 
     //redraw if needed
-    if(CH->drawFlag == true)
-    {
+    if (CH->drawFlag == true) {
         pixRender(CH);
         /*
 
@@ -34,7 +32,7 @@ bool loop(CH8 *CH)
     int quit = 0;
 
 
-    while (SDL_PollEvent (&event)) {
+    while (SDL_PollEvent(&event)) {
         if (event.type == SDL_KEYDOWN) {
             switch (event.key.keysym.sym) {
                 case SDLK_1:
@@ -146,12 +144,23 @@ bool loop(CH8 *CH)
         }
     }
 
-        if (CH->ST != 0) {
-            printf("Beep");
-            CH->ST -= 1;
-        }
-        if (CH->DT != 0) {
-            CH->DT -= 1;
-        }
-        return true;
+    if (CH->ST != 0) {
+        printf("Beep");
+        CH->ST -= 1;
     }
+    if (CH->DT != 0) {
+        CH->DT -= 1;
+    }
+    return true;
+
+
+    if (CH->ST != 0) {
+        printf("Beep!");
+        CH->ST -= 1;
+    }
+    if (CH->DT != 0) {
+        CH->DT -= 1;
+    }
+    return true;
+
+}

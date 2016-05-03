@@ -10,7 +10,7 @@
 bool cpuNULL(CH8 *CH,unsigned short opcode)
 {
     //do nothing
-    printf("not an opcode");
+    printf("%04x is not an opcode", opcode);
     return false;
 }
 
@@ -35,7 +35,7 @@ bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
         {
                 {
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL,
-                cpuNULL, cpuNULL, FX07, cpuNULL,
+                cpuNULL, cpuNULL, cpuNULL, FX07,
                 cpuNULL, FX0A, cpuNULL, cpuNULL,
                 cpuNULL, cpuNULL, cpuNULL, cpuNULL
                 },{
