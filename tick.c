@@ -146,12 +146,12 @@ bool loop(CH8 *CH)
         }
     }
 
-        if (CH->ST != 0) {
-            //do sound
-            CH->ST -= 1;
-        }
-        if (CH->DT != 0) {
-            CH->DT -= 1;
-        }
-        return true;
+    if (CH->ST != 0) {
+        //do sound
+        CH->ST -= 1;
     }
+    if (CH->DT != 0) {
+        CH->DT -= 1;
+    }
+    return true;
+}

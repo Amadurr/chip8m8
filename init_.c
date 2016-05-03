@@ -29,7 +29,7 @@ bool init(CH8 *CH)
         CH->Memory[i] = 0;
     CH->drawFlag = false;
 
-    load(CH, "TETRIS");
+    load(CH, "PONG");
 
 
 
