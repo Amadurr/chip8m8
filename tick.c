@@ -144,17 +144,6 @@ bool loop(CH8 *CH) {
         }
     }
 
-
-    if (CH->ST != 0) {
-        printf("Beep");
-        CH->ST -= 1;
-    }
-    if (CH->DT != 0) {
-        CH->DT -= 1;
-    }
-    return true;
-
-
     if (CH->ST != 0) {
         printf("Beep!");
         CH->ST -= 1;

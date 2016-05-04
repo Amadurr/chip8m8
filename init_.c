@@ -29,6 +29,8 @@ bool init(CH8 *CH)
     CH->sp = 0;
     CH->opcode = 0;
     CH->I = 0;
+    CH->ST = 0;
+    CH->DT = 0;
     for(int i = 0; i < 16 ; i++)
         CH->stack[i] = 0;
     for(int i = 0; i < 16 ; i++)
