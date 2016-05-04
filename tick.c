@@ -23,7 +23,7 @@ bool loop(CH8 *CH) {
             printf("\n");
         }
         printf("-------------\n-------------\n");*/
-        CH->time = delay(CH->time);
+        /*CH->time = delay(CH->time);*/
         CH->drawFlag = false;
 
     }

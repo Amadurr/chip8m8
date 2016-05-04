@@ -4,7 +4,6 @@
 
 
 #include "app.h"
-
 void pixRender(CH8* CH)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -28,18 +27,20 @@ void pixRender(CH8* CH)
             }
         }
     }
-
+    SDL_Delay(1);
     SDL_GL_SwapWindow(CH->window);
 }
 
 Uint32 delay(Uint32 time)
 {
-    float dt = 17;
+    //Sleep(1);
+    /*
+     * float dt = 17;
     Uint32 newtime = SDL_GetTicks();
     while(newtime < time + dt)
     {
         newtime = SDL_GetTicks();
     }
-    return newtime;
+    return newtime;*/
 }
 
