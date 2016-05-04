@@ -219,10 +219,11 @@ bool opD(CH8 *CH,unsigned short opcode)
 //    unsigned short shift;
     unsigned short x = CH->V[(opcode & 0x0F00) >> 8];
     unsigned short y = CH->V[(opcode & 0x00F0) >> 4];
+    CH->V[0xF] = 0;
     for(int yLine = 0; yLine < (opcode&0x000F); yLine++)
     {
         sprite = CH->Memory[CH->I + yLine];
-        CH->V[0xF] = 0;
+
         for(int xLine = 0; xLine < 8; xLine++)
         {
             if((sprite & (0x80 >> xLine)) != 0)
