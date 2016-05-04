@@ -6,7 +6,7 @@
 #include "app.h"
 void pixRender(CH8* CH)
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
 
@@ -27,8 +27,8 @@ void pixRender(CH8* CH)
             }
         }
     }
-    SDL_Delay(1);
     SDL_GL_SwapWindow(CH->window);
+    SDL_Delay(32);
 }
 
 Uint32 delay(Uint32 time)

@@ -31,6 +31,11 @@ bool gfxInit(CH8* CH)
         return false;
     }
     CH->gl_context = SDL_GL_CreateContext(CH->window);
+    if(CH->gl_context == NULL)
+    {
+        printf("openGL failed to create context: %s\n", SDL_GetError());
+        return false;
+    }
     printf("Using opengl version %s.\n", glGetString(GL_VERSION));
     return true;
 }
