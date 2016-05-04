@@ -286,8 +286,13 @@ bool FX07(CH8 *CH,unsigned short opcode)
 
 bool FX0A(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    for(int i = 0; i < 0xf; i++)
+        if(CH->key[i])
+        {
+            CH->V[(opcode & 0x0f00) >> 8] = i;
+            CH->pc += 2;
+        }
+    return true;
 }
 
 bool FX15(CH8 *CH,unsigned short opcode)
@@ -313,8 +318,9 @@ bool FX1E(CH8 *CH,unsigned short opcode)
 
 bool FX29(CH8 *CH,unsigned short opcode)
 {
-
-    return false;
+    CH->I = CH->V[(opcode & 0x0f00) >> 8] * 5;
+    CH->pc += 2;
+    return true;
 }
 
 bool FX33(CH8 *CH,unsigned short opcode)

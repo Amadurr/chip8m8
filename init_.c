@@ -44,11 +44,16 @@ bool init(CH8 *CH)
     for(int i = 0; i < 0x0200 ; i++)
         CH->Memory[i] = fontSet[i];
     CH->drawFlag = false;
+
     char ROM[20];
     printf("Please input a ROM name\n");
     scanf("%s", ROM);
     load(CH, ROM);
     strcpy(CH->title,ROM);
+
+
+    load(CH, "test");
+
 
 
 
