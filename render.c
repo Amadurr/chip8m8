@@ -28,7 +28,7 @@ void pixRender(CH8* CH)
         }
     }
     SDL_GL_SwapWindow(CH->window);
-    SDL_Delay(32);
+    SDL_Delay(0);
 }
 
 Uint32 delay(Uint32 time)
