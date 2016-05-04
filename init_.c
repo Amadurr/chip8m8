@@ -28,8 +28,10 @@ bool init(CH8 *CH)
     for(int i = 0; i < 0x1000 ; i++)
         CH->Memory[i] = 0;
     CH->drawFlag = false;
-
-    load(CH, "PONG");
+    char ROM[20];
+    printf("Please input a ROM name\n");
+    scanf("%s", ROM);
+    load(CH, ROM);
 
 
 

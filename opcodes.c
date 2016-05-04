@@ -78,10 +78,12 @@ bool op0(CH8 *CH,unsigned short opcode) {
             for (int i = 0; i < 32*64; i++)
                 CH->gfx[i] = 0x00;
             CH->pc += 2;
+            CH->drawFlag = true;
             return true;
         case 0x000e:    //00EE  v
-            CH->pc = CH->stack[CH->sp];
+            CH->pc = CH->stack[--CH->sp];
             CH->pc += 2;
+
             return true;
 
         case 0x000F:    // reg dump test opcode
@@ -131,7 +133,7 @@ bool op1(CH8 *CH,unsigned short opcode)
 
 bool op2(CH8 *CH,unsigned short opcode)
 {
-    CH->stack[++CH->sp] = CH->pc;
+    CH->stack[CH->sp++] = CH->pc;
     CH->pc = opcode & 0x0FFF;
     return true;
 }
