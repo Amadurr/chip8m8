@@ -20,6 +20,12 @@ int main(int argc, char* argv[])
     while(CH.run)
     {
         loop(&CH);
+        printf("\nop:%04x I:%03x PC:%04x SP:%04x ",CH.opcode, CH.I, CH.pc,CH.sp);
+        for(int i = 0; i <= 0xf; i++)
+        {
+            printf("V%01x:%02x ",i, CH.V[i]);
+        }
+        //getchar();
     }
     return 0;
 }

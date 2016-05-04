@@ -51,12 +51,6 @@ bool init(CH8 *CH)
     load(CH, ROM);
     strcpy(CH->title,ROM);
 
-
-    load(CH, "test");
-
-
-
-
     if(!gfxInit(CH))
 
     {

@@ -23,7 +23,7 @@ bool loop(CH8 *CH) {
             printf("\n");
         }
         printf("-------------\n-------------\n");*/
-        CH->time = delay(CH->time);
+        /*CH->time = delay(CH->time);*/
         CH->drawFlag = false;
 
     }
@@ -143,17 +143,6 @@ bool loop(CH8 *CH) {
             quit = 1;
         }
     }
-
-
-    if (CH->ST != 0) {
-        printf("Beep");
-        CH->ST -= 1;
-    }
-    if (CH->DT != 0) {
-        CH->DT -= 1;
-    }
-    return true;
-
 
     if (CH->ST != 0) {
         printf("Beep!");
