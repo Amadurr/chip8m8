@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
         {
             printf("V%01x:%02x ",i, CH.V[i]);
         }
-        //getchar();
+        getchar();
     }
     return 0;
 }
