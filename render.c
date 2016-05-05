@@ -10,9 +10,9 @@ void pixRender(CH8* CH)
     glClear(GL_COLOR_BUFFER_BIT);
 
 
-    for(int y = 0; y < 32; y++)
+    for(int y = 0; y <= 31; y++)
     {
-        for (int x = 0; x < 64; x++)
+        for (int x = 0; x <= 63; x++)
         {
             if(CH->gfx[(y*64) + x] != 0)
             {
@@ -27,8 +27,19 @@ void pixRender(CH8* CH)
             }
         }
     }
+
+/*
+        printf("-------------\n-------------\n");
+        printf("screendump..\n");
+        for(int y = 0; y < 32;y++) {
+
+            for (int x = 0; x < 64; x++)
+                printf("%2x", CH->gfx[(64 * y) + x]);
+            printf("\n");
+        }
+        printf("-------------\n-------------\n");*/
     SDL_GL_SwapWindow(CH->window);
-    SDL_Delay(0);
+    SDL_Delay(16);
 }
 
 Uint32 delay(Uint32 time)

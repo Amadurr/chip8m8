@@ -226,7 +226,7 @@ bool opD(CH8 *CH,unsigned short opcode)
 
         for(int xLine = 0; xLine < 8; xLine++)
         {
-            if((sprite & (0x80 >> xLine)) != 0)
+            if((sprite & ((0x80 >> xLine))) && (((x + xLine) + ((y + yLine) * 64)) < (32*64)))
             {
                 if (CH->gfx[(x + xLine) + (y + yLine) * 64] == 1)
                     CH->V[0xF] = 1;
