@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
         for(int i = 0; i <= 0xf; i++)
         {
             printf("V%01x:%02x ",i, CH.V[i]);
-        }/*
+        }
         if((CH.opcode&0xF0FF) == 0xf00A){
             scanf("%x",&CH.V[CH.opcode&0x0F00>>8]);
             CH.pc+=2;
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
         getchar();
 
-        else getchar();*/
+
 
     }
     return 0;
