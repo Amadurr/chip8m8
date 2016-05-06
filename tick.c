@@ -9,15 +9,7 @@ bool loop(CH8 *CH) {
     //process opcode
     CH->run = opcodes[(CH->opcode & 0xF000) >> 12](CH, CH->opcode);
 
-    printf("I:%03x PC:%04x SP:%04x ",CH->I, CH->pc,CH->sp);
-    for(int i = 0; i <= 0xf; i++)
-    {
-        printf("V%01x:%02x ",i, CH->V[i]);
-    }
-    if((CH->opcode&0xF0FF) == 0xf00A){
-        scanf("%x",&CH->V[CH->opcode&0x0F00>>8]);
-        CH->pc+=2;
-    }
+
 
     //redraw if needed
     if (CH->drawFlag == true) {
@@ -33,13 +25,12 @@ bool loop(CH8 *CH) {
             printf("\n");
         }
         printf("-------------\n-------------\n");*/
-        /*CH->time = delay(CH->time);*/
+
         CH->drawFlag = false;
 
     }
-
+    SDL_Delay(4);
     SDL_Event event;
-    int quit = 0;
 
 
     while (SDL_PollEvent(&event)) {
@@ -96,6 +87,8 @@ bool loop(CH8 *CH) {
                 case SDLK_ESCAPE:
                     exit(1);
                     break;
+                default:
+                    break;
 
             }
         } else if (event.type == SDL_KEYUP) {
@@ -148,9 +141,9 @@ bool loop(CH8 *CH) {
                 case SDLK_v:
                     CH->key[0xF] = 0;
                     break;
+                default:
+                    break;
             }
-        } else if (event.type == SDL_QUIT) {
-            quit = 1;
         }
     }
 

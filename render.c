@@ -39,19 +39,5 @@ void pixRender(CH8* CH)
         }
         printf("-------------\n-------------\n");*/
     SDL_GL_SwapWindow(CH->window);
-    SDL_Delay(16);
-}
-
-Uint32 delay(Uint32 time)
-{
-    //Sleep(1);
-    /*
-     * float dt = 17;
-    Uint32 newtime = SDL_GetTicks();
-    while(newtime < time + dt)
-    {
-        newtime = SDL_GetTicks();
-    }
-    return newtime;*/
 }
 
