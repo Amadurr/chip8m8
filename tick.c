@@ -29,7 +29,7 @@ bool loop(CH8 *CH) {
         CH->drawFlag = false;
 
     }
-    //SDL_Delay(1);
+    SDL_Delay(1);
     SDL_Event event;
 
 
