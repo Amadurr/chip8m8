@@ -17,14 +17,14 @@ bool load(CH8 *CH, const char *filename)
     unsigned char * buffer = (unsigned char*)malloc(sizeof(unsigned char) * bufferSize);
     if (buffer == NULL)
     {
-        fprintf(stderr, "Memory error");
+        fprintf(stderr, "Memory error <- ");
         return false;
     }
 
     size_t result = fread(buffer, 1, bufferSize, fp);
     if(result != bufferSize)
     {
-        fprintf(stderr, "Reading error");
+        fprintf(stderr, "Reading error <- ");
         return false;
     }
     if((0x1000-0x200) > bufferSize)
@@ -33,7 +33,7 @@ bool load(CH8 *CH, const char *filename)
             CH->Memory[i + 512] = buffer[i];
     }
     else
-        printf("ROM too big!");
+        printf("ROM too big <- ");
     fclose(fp);
     free(buffer);
 

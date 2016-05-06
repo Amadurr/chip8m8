@@ -2,7 +2,7 @@
 // Created by Kringle on 04/04/2016.
 //
 #include "app.h"
-
+#include <time.h>
 #include <strings.h>
 
 
@@ -37,6 +37,7 @@ bool init(CH8 *CH)
     CH->I = 0;
     CH->ST = 0;
     CH->DT = 0;
+    srand(time(NULL));
     for(int i = 0; i < 16 ; i++)
         CH->stack[i] = 0;
     for(int i = 0; i < 16 ; i++)
@@ -54,7 +55,13 @@ bool init(CH8 *CH)
     char ROM[20];
     printf("Please input a ROM name\n");
     scanf("%s", ROM);
-    load(CH, ROM);
+    if(!load(CH, ROM))
+
+    {
+        fprintf(stderr, "failed to load ROM\n");
+        return false;
+    }
+
     strcpy(CH->title,ROM);
 
     if(!gfxInit(CH))

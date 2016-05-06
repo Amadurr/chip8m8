@@ -5,7 +5,7 @@
 bool loop(CH8 *CH) {
     //Fetch opcode
     CH->opcode = CH->Memory[CH->pc] << 8 | CH->Memory[CH->pc + 1];
-    printf("\nop:%04x ",CH->opcode);
+    //printf("\nop:%04x ",CH->opcode);
     //process opcode
     CH->run = opcodes[(CH->opcode & 0xF000) >> 12](CH, CH->opcode);
 
@@ -29,7 +29,7 @@ bool loop(CH8 *CH) {
         CH->drawFlag = false;
 
     }
-    SDL_Delay(4);
+    //SDL_Delay(1);
     SDL_Event event;
 
 
@@ -146,13 +146,17 @@ bool loop(CH8 *CH) {
             }
         }
     }
-
-    if (CH->ST != 0) {
-        printf("Beep!");
-        CH->ST -= 1;
-    }
-    if (CH->DT != 0) {
-        CH->DT -= 1;
+    Uint32 newtime = SDL_GetTicks();
+    if(newtime >= CH->time + 16)
+    {
+        if (CH->ST != 0) {
+            CH->ST -= 1;
+            printf("Beep!");
+        }
+        if (CH->DT != 0) {
+            CH->DT -= 1;
+        }
+        CH->time = newtime;
     }
     return true;
 
