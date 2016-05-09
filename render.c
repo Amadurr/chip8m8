@@ -6,7 +6,7 @@
 #include "app.h"
 void pixRender(CH8* CH)
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.75f, 0.85f, 0.25f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     for(int y = 0; y <= 31; y++)
@@ -15,7 +15,7 @@ void pixRender(CH8* CH)
         {
             if(CH->gfx[(y*64) + x] != 0)
             {
-                glColor3f(1.0f, 1.0f, 1.0f);
+                glColor3f(0.2f, 0.25f, 0.1f);
                 glBegin(GL_QUADS);
                 glVertex2f(x/32.0f-1, 1-y/16.0f);
                 glVertex2f((x+1)/32.0f-1, 1-y/16.0f);
