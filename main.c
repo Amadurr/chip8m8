@@ -16,10 +16,7 @@ int main(int argc, char* argv[])
 
     CH.run = true;
 
+    loop(&CH);
 
-    while(CH.run)
-    {
-        loop(&CH);
-    }
     return 0;
 }

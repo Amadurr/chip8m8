@@ -105,4 +105,5 @@ Uint32 delay(Uint32 time);
 
 //loop
 bool loop(CH8* CH);
+void keypress(CH8 *CH);
 #endif //CHIP8_TEMP_APP_H

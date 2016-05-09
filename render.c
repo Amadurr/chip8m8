@@ -6,9 +6,8 @@
 #include "app.h"
 void pixRender(CH8* CH)
 {
-    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
 
     for(int y = 0; y <= 31; y++)
     {
@@ -28,16 +27,7 @@ void pixRender(CH8* CH)
         }
     }
 
-/*
-        printf("-------------\n-------------\n");
-        printf("screendump..\n");
-        for(int y = 0; y < 32;y++) {
-
-            for (int x = 0; x < 64; x++)
-                printf("%2x", CH->gfx[(64 * y) + x]);
-            printf("\n");
-        }
-        printf("-------------\n-------------\n");*/
     SDL_GL_SwapWindow(CH->window);
+    CH->drawFlag = false;
 }
 
