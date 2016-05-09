@@ -23,7 +23,7 @@ bool gfxInit(CH8* CH)
             SDL_WINDOWPOS_UNDEFINED,
             CH->screenWidth,
             CH->screenHeight,
-            SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_WINDOW_OPENGL);
 
     if(CH->window == NULL)
     {
