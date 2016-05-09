@@ -10,6 +10,8 @@ bool loop(CH8 *CH) {
         //process opcode
         CH->run = opcodes[(CH->opcode & 0xF000) >> 12](CH, CH->opcode);
 
+        //Uncomment to debug
+        //deconstructor(CH);
 
 
         //redraw if needed
