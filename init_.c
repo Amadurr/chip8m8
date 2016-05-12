@@ -37,6 +37,7 @@ bool init(CH8 *CH)
     CH->I = 0;
     CH->ST = 0;
     CH->DT = 0;
+    CH->time = 0;
     srand(time(NULL));
     for(int i = 0; i < 16 ; i++)
         CH->stack[i] = 0;

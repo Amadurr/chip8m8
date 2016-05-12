@@ -48,6 +48,7 @@ void deconstructor(CH8* CH)
     {
         printf("V%01x:%02x ",i, CH->V[i]);
     }
+    printf("DT:%02x ST:%02x", CH->DT, CH->ST);
     if((CH->opcode&0xF0FF) == 0xf00A){
         scanf("%x",&CH->V[CH->opcode&0x0F00>>8]);
         CH->pc+=2;
