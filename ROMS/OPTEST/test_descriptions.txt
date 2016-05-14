@@ -1,97 +1,101 @@
-00E0
+00E0 V
 	draw a lot to the screen, call 00E0, see if screen is clear
-00EE
+00EE V
 	call subroutine, call 00EE and check data then call 00EE again and check for underflow
-1NNN
-	Do five jumps, check if PC ends at the right place
-2NNN
+1NNN V
+	Do several jumps, iterate V0 each jump, then check if V0 is right at the end
+2NNN V
 	call subroutine, check if everything is fine, then call 16 more and check if there is an overflow
-3XNN
+3XNN V
 	write NN (f.exs 10) to a register (f.eks 5) and call 3XNN (3510) if not equal write 0xFF to a register
 	then run 3XNN+1 (3511) if equal write FF to another register, lastly run 3XNN-1 (350F)
 	if equal write 0xFF to another register, then do a register dump and check if, and at which points
 	it failed
-4XNN
+4XNN V
 	Much like for the 3XNN, except flip the equal not equals places
-5ZY0
+5ZY0 v
 	write NN-1 to one register, NN to the next, and NN+1 to the next, and NN to the next,
 	then compare the first three to the last one, writing 0xFF to registers where it fails
-6XNN
+	(changed to compare in a loop with a register starting at 0x00and  itteratively gaining one in change, 
+	and ending the loop when they are equal, and the same from 0xFF and down. 
+	iterating a register in both cases itterating a register each to see how many steps it took,
+	then comparing those with the expected resoults in the end manually)
+6XNN v
 	write NN to all registers, check data, then overwrite one register multiple times, always checking
 	for errors.
-7XNN
+7XNN v
 	load 1 to a register, then add one to that register, add 1 to another register to keep count,
 	check if the first register == 0x00, if not, loop back to the firsth add, if it equals one check data
-8XY0
+8XY0 v
 	much like 6XNN except first writing to all other registers from one,
 	then writing from all registers to one
-8XY1
-	Much like 7XNN, except recursively adding two registers to eachother, all the time checking the data
-8XY2
+8XY1 v
 	write 55 to one register, then 0xAA to another, run 8XY2, check if we get 0xFF from VX,
 	but that VY is still 0xAA, then repeat with 0x5A, 0xA5 and lastly 0x5A and 0x5A.
-8XY2
+8XY2 v
 	like 8XY2, except apply AND logic
-8XY3
+8XY3 v
 	like 8XY2, except apply XOR logic
-8XY4
+8XY4 v
 	write N1 to one register, then N2 to another, run 8XY4, check if X = N1 + N2,
 	if false jump to end of program and dump registers, if true run 8YX4, and check if Y = N2+(N1+N2)
 	(make sure to choose numbers that dont cause overflow) then write FF to register Z, and run 8YZ4
-	and check if Y = (N2+(N1+N2)) = (N2+(N1+N2))-1(because binary logic) AND that VF = 0x01
-8XY5
+	and check if Y = (N2+(N1+N2))-1(because binary logic) AND that VF = 0x01
+8XY5 v
 	write N1 to one register, then N2 to another, run 8XY5, check if X = N1 - N2,
 	if false jump to end of program and dump registers, if true run 8YX5, and check if Y = N2-(N1-N2)
 	(make sure to choose numbers that dont cause underflow) then write 0xFF to register Z, and run 8YZ5
-	and check if Y = (N2-(N1-N2)) = (N2-(N1-N2))+1(because binary logic) AND that VF = 0x00
-8XY6
-	write 0x80 to a register, then use 8XY6 on that register, and ADD 0x01 to another,
-	then if VF != loop back to the shift, when VF = 1 check data
-8XY7
+	and check if Y = (N2-(N1-N2))+1(because binary logic) AND that VF = 0x00
+8XY6 v
+	write 0x80 to a register, then use 8XY6 on that register, and ADD 0x01 to another, 
+	then if VF != 1 loop back to the shift, when VF = 1 check data
+8XY7 v
 	Like the test for 8XY5, except carrying on with the other register
-8XYE
+8XYE v
 	like 8XY6, except first writing 01 to the register.
-9XY0
+9XY0 v
 	Like 5XY0 except flip the equals with not equals and oposite
-ANNN
+ANNN v
 	sets ANNN to 0x000, check data, then with FFF, then 0xA5A, then 0x5A5
-BNNN
+BNNN v
 	jumps around a few times while iterating a register, check data at end,
 	 if register is not correct number it has done a wrong jump
-CXNN
+CXNN v
 	call CXNN a few times writing to the next register each time,  then checks data,
 	run the whole test a few times to see if the pattern repeats
-DXYN
+DXYN v
 	write sprites to random places for a while, then clears screen and draws in a loop along the bottom
 	to check for overflows
-EX9E
+EX9E v
 	assign key 0 to VX, then run EX9E in a loop exiting when that key is pressed, iterate VX and repeat
 	until VX >= 0x0F
-EXA1
-	same as EXA1 (logic to skip (given EXA1 is at adress 0x200)EXA1 1206 1200)
-FX07
+EXA1 v
+	same as EX9E (logic to skip (given EXA1 is at adress 0x200)EXA1 1206 1200)
+FX07 v
 	set DT, then run FX07, and see in the deconstructor if VX == DT, repeat a few times
-FX0A
+FX0A v
 	Prints the pressed key to the screen, wait for any button, then clears screen and repeats
-FX15
+FX15 v
 	write 0x3C(hexcode for 60, DT runds at ~60hz) to a register then copy that to DT,
 	write DT to a register check if its 0 if not loop from "," if it is, exit.
 	compare this with stopwatch or timer manualy to see if it spends about 1 secound
-FX18
+FX18 v
 	much like FX15, but no need for a check loop, as it will stop on its own, just time it 
 	with a stop watch to check how long it goes
-FX1E
+FX1E v
 	write some set data to a few registers then add them to I, write 0xFF to V0, then jump
 	if it jumps to the right spot it sets V0 to 0x00 and jumps to end, if not it just jumps to end, or crashes, really, who knows
-FX29
+FX29 v
 	could be the same as FX0A, but different errors could mask eachother, so test this on its own then test FX0A
 	write numbers from 0x00 to 0x0F to their corresponding registers, then then run each one with FX29
 	and print to screen besides each other.
-FX33
-	write set numbers to VX, and then print from I to see if the data is correct
-FX55
-	write the indexes of each register to themselves and write this to memory, then print to screen
-FX65
+FX33 v
+	write a random  to VC and write the digits of that to memory starting at 0x300 iterate I by 3 and repeat,
+	then load 8 registers from memory starting at 0x300
+FX55 v
+	write the indexes of each register to themselves and write this to memory, load registers with random data,
+	and then load back to registers from memory
+FX65 v
 	start test with a jump, then 00 01 02.... 0E 0F and set I to 202 then run FF65
 	
 	 
