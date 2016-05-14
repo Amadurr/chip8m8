@@ -81,6 +81,11 @@ bool op0(CH8 *CH,unsigned short opcode) {
             CH->drawFlag = true;
             return true;
         case 0x000e:    //00EE  v
+            if(CH->sp == 0)
+            {
+                fprintf(stderr, "Cant return when not in subroutine, Exiting");
+                return false;
+            }
             CH->pc = CH->stack[--CH->sp];
             CH->pc += 2;
 
@@ -93,6 +98,8 @@ bool op0(CH8 *CH,unsigned short opcode) {
             printf("sp = %i\n", CH->sp);
             printf("opcode = %i\n", CH->opcode);
             printf("I = %i\n", CH->I);
+            printf("DT = %i\n", CH->DT);
+            printf("ST = %i\n", CH->ST);
             printf("-------------\n-------------\n");
             for(int i = 0; i < 0x10; i++)
             {
@@ -110,11 +117,9 @@ bool op0(CH8 *CH,unsigned short opcode) {
             for(int y = 0; y < 32;y++) {
                 for (int x = 0; x < 64; x++)
                     printf("%2x", CH->gfx[(64 * y) + x]);
-                printf("\n");
+                printf("\n\n");
             }
             printf("-------------\n-------------\n");
-            printf("press a key to contune");
-            getchar();
             CH->pc += 2;
             return true;
             CH->run = false;
@@ -133,6 +138,11 @@ bool op1(CH8 *CH,unsigned short opcode)
 
 bool op2(CH8 *CH,unsigned short opcode)
 {
+    if (CH->sp >= 0xF)
+    {
+        fprintf(stderr,"stack is full, cant start more subroutines, exiting...");
+        return false;
+    }
     CH->stack[CH->sp++] = CH->pc;
     CH->pc = opcode & 0x0FFF;
     return true;
@@ -287,7 +297,7 @@ bool FX07(CH8 *CH,unsigned short opcode)
 
 bool FX0A(CH8 *CH,unsigned short opcode)
 {
-    for(int i = 0; i < 0xf; i++)
+    for(int i = 0; i <= 0xF; i++)
         if(CH->key[i])
         {
             CH->V[(opcode & 0x0f00) >> 8] = i;
@@ -353,35 +363,35 @@ bool FX65(CH8 *CH,unsigned short opcode)
 
 
 
-bool arit0(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit0(CH8 *CH,unsigned short opcode)
 {
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x00f0) >> 4];
     CH->pc += 2;
     return true;
 }
 
-bool arit1(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit1(CH8 *CH,unsigned short opcode)
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) | (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
 
-bool arit2(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit2(CH8 *CH,unsigned short opcode)
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) & (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
 
-bool arit3(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit3(CH8 *CH,unsigned short opcode)
 {
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) ^ (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
 }
 
-bool arit4(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit4(CH8 *CH,unsigned short opcode)
 {
     if (CH->V[(opcode & 0x0f00) >> 8] + (CH->V[(opcode & 0x00f0) >> 4]) >= 256)
         CH->V[0xf] = 1;
@@ -392,9 +402,9 @@ bool arit4(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     return true;
 }
 
-bool arit5(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit5(CH8 *CH,unsigned short opcode)
 {
-    if (CH->V[(opcode & 0x0f00) >> 8] < CH->V[(opcode & 0x00f0) >> 4])
+    if ((CH->V[(opcode & 0x0f00) >> 8] < CH->V[(opcode & 0x00f0) >> 4]))
         CH->V[0xf] = 0;
     else
         CH->V[0xf] = 1;
@@ -403,7 +413,7 @@ bool arit5(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     return true;
 }
 
-bool arit6(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit6(CH8 *CH,unsigned short opcode)
 {
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] & 0x1;
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] >> 1;
@@ -412,7 +422,7 @@ bool arit6(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     return true;
 }
 
-bool arit7(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool arit7(CH8 *CH,unsigned short opcode)
 {
     if (CH->V[(opcode & 0x0f00) >> 8] > CH->V[(opcode & 0x00f0) >> 4])
         CH->V[0xf] = 0;
@@ -423,7 +433,7 @@ bool arit7(CH8 *CH,unsigned short opcode) // N = First letter of opcode
     return true;
 }
 
-bool aritE(CH8 *CH,unsigned short opcode) // N = First letter of opcode
+bool aritE(CH8 *CH,unsigned short opcode)
 {
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] >> 7;
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] << 1;

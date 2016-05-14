@@ -1,0 +1,62 @@
+Made descriptions for opcode tests
+
+Making opcode tests
+00E0 v
+00EE v
+1NNN v
+2NNN v
+3XNN v
+4XNN v
+5XY0 v
+6XNN v
+7XNN v
+8XY0 v
+8XY1 v
+8XY2 v
+8XY3 v
+8XY4 v
+8XY5 v
+8XY6 v
+8XY7 v
+8XYE v
+9XY0 v
+ANNN v
+BNNN v
+CXNN v
+DXNN v
+EX9E v 
+EXA1 v
+FX07 v
+FX0A v
+FX15 v
+FX18 v
+FX1E v
+FX29 v
+FX33 v
+FX55 v
+FX65 v
+
+opcode ERROR and change log:
+
+00EE:
+Nothing stopped it from trying to return when not in subroutine, 
+almost certanly causing it to crash, but potentialy it could let the program reach somewhere its not supposed to be.
+Changed it to raise an error and ending the program properly when trying to return from a subroutine and SP = 0
+
+2NNN:
+Can keep starting new subroutines after the stack is full, while it in my test managed to return sucessfully,
+this is probably because of how simple the test is, but in a more complex program i suspect it might cause 
+it to get lost if it calls one too many subroutines and also make it write memory adresses outside the stack.
+Changed it to raise an error and exiting the program properly when trying to start a subroutine and SP = 15
+
+CXNN log:
+194 193  59 192 146  27 217 202   8  23 110  34 193  54  23 192
+232  65 162  14 243 253 216 167  16  55  59 173 219 129 254 124
+170 154 218  15 109   4 120  95  85  62 130 222  28 207 147 124
+looks good
+
+FX0A:
+Found that the button for F did not work, as the loop checking for buttons looped from 0 to, but not including 0xF, added an "or equal" oppearnd.
+
+General changes:
+added a condition to exit the program when reaching opcode 0000(end of actual data)

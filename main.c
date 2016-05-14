@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
     if(!init(&CH))
     {
         printf("EPICFAIL");
+        return -1;
     }
 
     CH.run = true;
