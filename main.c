@@ -1,6 +1,3 @@
-//
-// Created by Kringle on 14/03/2016.
-//
 #include "app.h"
 int main(int argc, char* argv[])
 {
