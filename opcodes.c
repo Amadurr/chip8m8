@@ -6,6 +6,8 @@
 
 #include <stdlib.h>
 #include "app.h"
+#define DEBUG 1
+#define decon_print(x, ...){if (DEBUG) printf(x, __VA_ARGS__);}
 
 bool cpuNULL(CH8 *CH,unsigned short opcode)
 {
@@ -75,12 +77,14 @@ bool(*FX[7][16])(CH8 *CH,unsigned short opcode) =
 bool op0(CH8 *CH,unsigned short opcode) {
     switch (opcode & 0x000F) {
         case 0x0000:    //00E0  v
+            decon_print("CLS\n",NULL);
             for (int i = 0; i < 32*64; i++)
                 CH->gfx[i] = 0x00;
             CH->pc += 2;
             CH->drawFlag = true;
             return true;
         case 0x000e:    //00EE  v
+            decon_print("RET\n",NULL);
             if(CH->sp == 0)
             {
                 fprintf(stderr, "Cant return when not in subroutine, Exiting");
@@ -92,6 +96,7 @@ bool op0(CH8 *CH,unsigned short opcode) {
             return true;
 
         case 0x000F:    // reg dump test opcode
+            decon_print("DMP\n",NULL);
             printf("initializing reg dump...\n");
 
             printf("pc = %i\n", CH->pc);
@@ -132,12 +137,14 @@ bool op0(CH8 *CH,unsigned short opcode) {
 
 bool op1(CH8 *CH,unsigned short opcode)
 {
+    decon_print("JP %03x\n", (opcode & 0x0FFF));
     CH->pc = opcode & 0x0FFF;
     return true;
 }
 
 bool op2(CH8 *CH,unsigned short opcode)
 {
+    decon_print("CALL %03x\n", (opcode & 0x0FFF));
     if (CH->sp >= 0xF)
     {
         fprintf(stderr,"stack is full, cant start more subroutines, exiting...");
@@ -150,6 +157,7 @@ bool op2(CH8 *CH,unsigned short opcode)
 
 bool op3(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SE V%01x, %02x\n", (opcode & 0x0F00)>>8, (opcode & 0x00FF));
     if((CH->V[(opcode & 0x0f00) >> 8]) == (opcode & 0x00ff))
         CH->pc += 4;
     else
@@ -159,6 +167,7 @@ bool op3(CH8 *CH,unsigned short opcode)
 
 bool op4(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SNE V%01x, %02x\n", (opcode & 0x0F00)>>8, (opcode & 0x00FF));
     if((CH->V[(opcode & 0x0f00) >> 8]) != (opcode & 0x00ff))
         CH->pc += 4;
     else
@@ -168,6 +177,7 @@ bool op4(CH8 *CH,unsigned short opcode)
 
 bool op5(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SE V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     if((CH->V[(opcode & 0x0f00) >> 8]) == (CH->V[(opcode & 0x00f0) >> 4]))
         CH->pc += 4;
     else
@@ -177,6 +187,7 @@ bool op5(CH8 *CH,unsigned short opcode)
 
 bool op6(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD V%01x, %02x\n", (opcode & 0x0F00)>>8, (opcode & 0x00FF));
     CH->V[(opcode & 0x0f00) >> 8] = (opcode & 0x00ff);
     CH->pc += 2;
     return true;
@@ -184,6 +195,7 @@ bool op6(CH8 *CH,unsigned short opcode)
 
 bool op7(CH8 *CH,unsigned short opcode)
 {
+    decon_print("ADD V%01x, %02x\n", (opcode & 0x0F00)>>8, (opcode & 0x00FF));
     CH->V[(opcode & 0x0f00) >> 8] += (opcode & 0x00ff);
     CH->pc += 2;
     return true;
@@ -195,6 +207,7 @@ bool op8(CH8 *CH, unsigned short opcode)
 }
 bool op9(CH8 *CH, unsigned short opcode)
 {
+    decon_print("SNE V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     if((CH->V[(opcode & 0x0f00) >> 8]) != (CH->V[(opcode & 0x00f0) >> 4]))
         CH->pc += 4;
     else
@@ -205,17 +218,20 @@ bool op9(CH8 *CH, unsigned short opcode)
 
 bool opA(CH8 *CH,unsigned short opcode) //Sets I to the address NNN.
 {
+    decon_print("LD I, %03x\n", (opcode & 0x0FFF));
     CH->I = opcode & 0x0FFF;
     CH->pc += 2;
     return true;
 }
 bool opB(CH8 *CH,unsigned short opcode) //Jumps to the address NNN plus V0.
 {
+    decon_print("JP V0, %03x\n", (opcode & 0x0FFF));
     CH->pc = (opcode & 0x0FFF) + CH->V[0];
     return true;
 }
 bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and operation on a random number and NN.
 {
+    decon_print("RND V%01x, %02x\n", (opcode & 0x0F00)>>8, (opcode & 0x00FF));
     CH->V[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
     CH->pc += 2;
     return true;
@@ -224,6 +240,7 @@ bool opC(CH8 *CH,unsigned short opcode) //Sets VX to the result of a bitwise and
 //UuW
 bool opD(CH8 *CH,unsigned short opcode)
 {
+    decon_print("DRW V%01x, V%01x, %01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4, (opcode & 0x000F));
     unsigned char sprite;
 
 //    unsigned short shift;
@@ -272,6 +289,7 @@ bool opF(CH8 *CH, unsigned short opcode)
 bool opEX9E(CH8 *CH,unsigned short opcode)//Skips the next instruction if the key stored in VX is pressed
 
 {
+    decon_print("SKP V%01x\n", (opcode & 0x0F00)>>8);
     if(CH->key[CH->V[(opcode & 0x0F00) >> 8]] != 0)
         CH->pc += 4;
     else
@@ -281,6 +299,7 @@ bool opEX9E(CH8 *CH,unsigned short opcode)//Skips the next instruction if the ke
 
 bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the key stored in VX isn't pressed
 {
+    decon_print("SKNP V%01x\n", (opcode & 0x0F00)>>8);
     if(CH->key[CH->V[(opcode & 0x0F00) >> 8]] == 0)
         CH->pc += 4;
     else
@@ -290,6 +309,7 @@ bool opEXA1(CH8 *CH,unsigned short opcode) //Skips the next instruction if the k
 
 bool FX07(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD V%01x, %02x\n", (opcode & 0x0F00)>>8, CH->DT);
     CH->V[(opcode & 0x0f00) >> 8] = CH->DT;
     CH->pc += 2;
     return true;
@@ -297,17 +317,21 @@ bool FX07(CH8 *CH,unsigned short opcode)
 
 bool FX0A(CH8 *CH,unsigned short opcode)
 {
+
     for(int i = 0; i <= 0xF; i++)
         if(CH->key[i])
         {
+            decon_print("LD V%01x, %01x\n", (opcode & 0x0F00)>>8, i);
             CH->V[(opcode & 0x0f00) >> 8] = i;
             CH->pc += 2;
+
         }
     return true;
 }
 
 bool FX15(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD DT, V%01x\n", (opcode & 0x0F00)>>8);
     CH->DT = CH->V[(opcode & 0x0f00) >> 8];
     CH->pc += 2;
     return true;
@@ -315,6 +339,7 @@ bool FX15(CH8 *CH,unsigned short opcode)
 
 bool FX18(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD ST, V%01x\n", (opcode & 0x0F00)>>8);
     CH->ST = CH->V[(opcode & 0x0f00) >> 8];
     CH->pc += 2;
     return true;
@@ -322,6 +347,7 @@ bool FX18(CH8 *CH,unsigned short opcode)
 
 bool FX1E(CH8 *CH,unsigned short opcode)
 {
+    decon_print("ADD I, V%01x\n", (opcode & 0x0F00)>>8);
     CH->I += CH->V[(opcode & 0x0f00) >> 8];
     CH->pc += 2;
     return true;
@@ -329,6 +355,7 @@ bool FX1E(CH8 *CH,unsigned short opcode)
 
 bool FX29(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD F, V%01x\n", (opcode & 0x0F00)>>8);
     CH->I = CH->V[(opcode & 0x0f00) >> 8] * 5;
     CH->pc += 2;
     return true;
@@ -336,6 +363,7 @@ bool FX29(CH8 *CH,unsigned short opcode)
 
 bool FX33(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD B, V%01x\n", (opcode & 0x0F00)>>8);
     unsigned short Vval = CH->V[(opcode & 0x0F00) >> 8];
     CH->Memory[CH->I] = Vval /100;
     CH->Memory[CH->I+1] = (Vval % 100) / 10;
@@ -346,6 +374,7 @@ bool FX33(CH8 *CH,unsigned short opcode)
 
 bool FX55(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD [I], V%01x\n", (opcode & 0x0F00)>>8);
     for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
         CH->Memory[CH->I + i] = CH->V[i];
     CH->pc += 2;
@@ -354,6 +383,7 @@ bool FX55(CH8 *CH,unsigned short opcode)
 
 bool FX65(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD V%01x, [I]\n", (opcode & 0x0F00)>>8);
     for (int i = 0; i <= ((opcode & 0x0f00) >> 8); i++)
         CH->V[i] = CH->Memory[CH->I + i];
     CH->pc += 2;
@@ -365,6 +395,7 @@ bool FX65(CH8 *CH,unsigned short opcode)
 
 bool arit0(CH8 *CH,unsigned short opcode)
 {
+    decon_print("LD V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x00f0) >> 4];
     CH->pc += 2;
     return true;
@@ -372,6 +403,7 @@ bool arit0(CH8 *CH,unsigned short opcode)
 
 bool arit1(CH8 *CH,unsigned short opcode)
 {
+    decon_print("OR V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) | (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
@@ -379,6 +411,7 @@ bool arit1(CH8 *CH,unsigned short opcode)
 
 bool arit2(CH8 *CH,unsigned short opcode)
 {
+    decon_print("AND V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) & (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
@@ -386,6 +419,7 @@ bool arit2(CH8 *CH,unsigned short opcode)
 
 bool arit3(CH8 *CH,unsigned short opcode)
 {
+    decon_print("XOR V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[(opcode & 0x0f00) >> 8] = (CH->V[(opcode & 0x0f00) >> 8]) ^ (CH->V[(opcode & 0x00f0) >> 4]);
     CH->pc += 2;
     return true;
@@ -393,6 +427,7 @@ bool arit3(CH8 *CH,unsigned short opcode)
 
 bool arit4(CH8 *CH,unsigned short opcode)
 {
+    decon_print("ADD V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     if (CH->V[(opcode & 0x0f00) >> 8] + (CH->V[(opcode & 0x00f0) >> 4]) >= 256)
         CH->V[0xf] = 1;
     else
@@ -404,6 +439,7 @@ bool arit4(CH8 *CH,unsigned short opcode)
 
 bool arit5(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SUB V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     if ((CH->V[(opcode & 0x0f00) >> 8] < CH->V[(opcode & 0x00f0) >> 4]))
         CH->V[0xf] = 0;
     else
@@ -415,6 +451,7 @@ bool arit5(CH8 *CH,unsigned short opcode)
 
 bool arit6(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SHR V%01x{, V%01x}\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] & 0x1;
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] >> 1;
 
@@ -424,6 +461,7 @@ bool arit6(CH8 *CH,unsigned short opcode)
 
 bool arit7(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SUBN V%01x, V%01x\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     if (CH->V[(opcode & 0x0f00) >> 8] > CH->V[(opcode & 0x00f0) >> 4])
         CH->V[0xf] = 0;
     else
@@ -435,6 +473,7 @@ bool arit7(CH8 *CH,unsigned short opcode)
 
 bool aritE(CH8 *CH,unsigned short opcode)
 {
+    decon_print("SHL V%01x {, V%01x}\n", (opcode & 0x0F00)>>8, (opcode & 0x00F0)>>4);
     CH->V[0xf] = CH->V[(opcode & 0x0f00) >> 8] >> 7;
     CH->V[(opcode & 0x0f00) >> 8] = CH->V[(opcode & 0x0f00) >> 8] << 1;
     CH->pc += 2;

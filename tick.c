@@ -6,7 +6,7 @@ bool loop(CH8 *CH) {
     while(CH->run == true) {
         //Fetch opcode
         CH->opcode = CH->Memory[CH->pc] << 8 | CH->Memory[CH->pc + 1];
-        printf("\nop:%04x ",CH->opcode);
+        //printf("\nop:%04x ",CH->opcode);
         if(CH->opcode == 0x0000)
             return false;
         //process opcode
