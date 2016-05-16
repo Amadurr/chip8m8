@@ -1,0 +1,52 @@
+  \documentclass[147pt, a4paper]{report} 
+  
+  \usepackage[pdftex]{graphicx}
+  \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+  \usepackage[top=2.5cm,bottom=2cm]{geometry}
+  \usepackage{setspace}
+  \usepackage{todonotes}
+  \usepackage{float}
+  \usepackage{array}
+  \usepackage{lipsum}
+  \usepackage{afterpage}
+  \usepackage{pdfpages}
+  \usepackage{color, colortbl}
+  \definecolor{Gray}{gray}{0.95}
+  \usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \author{Amar Duranovic, Are Jevne, Daniel Krogstad, Sindre Gjelsten.}
+  \date{\today}
+  \title{CHIP 8}
+  
+  \setlength\voffset{0in}
+  
+  
+  
+  \begin{document}
+  \maketitle
+  \afterpage{%
+  \begin{figure}[H]
+  	\includegraphics{Banner.png}
+    \centering
+  \end{figure}
+}
+  \tableofcontents
+  \listoffigures
+  \addcontentsline{toc}{chapter}{List of Figures}
+  \listoftables
+  \addcontentsline{toc}{chapter}{List of Tables}
+  \newpage
+
+  \part{Beginning}
+  
+  \chapter{Awesome Chapter}
+  \label{chp:awe_chp}
+  
+  
+  \section{Section}
+  
+  \subsection{Subsection}
+  
+  \subsubsection{Subsub Section}
+  
+  \end{document}

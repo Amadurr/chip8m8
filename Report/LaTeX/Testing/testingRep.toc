@@ -1,0 +1,7 @@
+\contentsline {chapter}{List of Figures}{2}
+\contentsline {chapter}{List of Tables}{3}
+\contentsline {part}{I\hspace {1em}Beginning}{4}
+\contentsline {chapter}{\numberline {1}Awesome Chapter}{5}
+\contentsline {section}{\numberline {1.1}Section}{5}
+\contentsline {subsection}{\numberline {1.1.1}Subsection}{5}
+\contentsline {subsubsection}{Subsub Section}{5}
