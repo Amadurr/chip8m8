@@ -17,17 +17,18 @@ bool loop(CH8 *CH) {
 
 
         //redraw if needed
-        if (CH->drawFlag == true) {
+        if (CH->drawFlag == true && CH->V[0xF] == 0) {
             pixRender(CH);
         }
         SDL_Delay(1);
         keypress(CH);
         Uint32 newtime = SDL_GetTicks();
 
+        Audio(CH->ST);
+
         if (newtime >= CH->time + 16) {
             if (CH->ST != 0) {
                 CH->ST -= 1;
-                printf("Beep!");
             }
             if (CH->DT != 0) {
                 CH->DT -= 1;

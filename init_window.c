@@ -8,9 +8,9 @@
 bool gfxInit(CH8* CH)
 {
 
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if(SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        printf("SDL failed to initialize: %s\n", SDL_GetError());
+        printf("SDL failed to initialize video: %s\n", SDL_GetError());
         return false;
     }
 
