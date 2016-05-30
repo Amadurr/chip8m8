@@ -1,0 +1,8 @@
+Sett inn lenker til kilder her. Skriv også en kort referanse til hvor i rapporten den omhandler.
+
+Chip 8 Wikipedia (Generelt litt overalt, ingen quotes) https://en.wikipedia.org/wiki/CHIP-8
+
+Sekvensdiagrammer (Innledning/8XY1) https://www.ntnu.no/wiki/display/tdt4100/Sekvensdiagrammer
+
+
+

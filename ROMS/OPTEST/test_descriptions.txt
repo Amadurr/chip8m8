@@ -19,13 +19,13 @@
 	(changed to compare in a loop with a register starting at 0x00and  itteratively gaining one in change, 
 	and ending the loop when they are equal, and the same from 0xFF and down. 
 	iterating a register in both cases itterating a register each to see how many steps it took,
-	then comparing those with the expected resoults in the end manually)
+	then comparing those with the expected results in the end manually)
 6XNN v
 	write NN to all registers, check data, then overwrite one register multiple times, always checking
 	for errors.
 7XNN v
 	load 1 to a register, then add one to that register, add 1 to another register to keep count,
-	check if the first register == 0x00, if not, loop back to the firsth add, if it equals one check data
+	check if the firstSkips the next instruction if VX doesn't equal NN. register == 0x00, if not, loop back to the firsth add, if it equals one check data
 8XY0 v
 	much like 6XNN except first writing to all other registers from one,
 	then writing from all registers to one
@@ -33,9 +33,9 @@
 	write 55 to one register, then 0xAA to another, run 8XY2, check if we get 0xFF from VX,
 	but that VY is still 0xAA, then repeat with 0x5A, 0xA5 and lastly 0x5A and 0x5A.
 8XY2 v
-	like 8XY2, except apply AND logic
+	like 8XY1, except apply AND logic
 8XY3 v
-	like 8XY2, except apply XOR logic
+	like 8XY1, except apply XOR logic
 8XY4 v
 	write N1 to one register, then N2 to another, run 8XY4, check if X = N1 + N2,
 	if false jump to end of program and dump registers, if true run 8YX4, and check if Y = N2+(N1+N2)
