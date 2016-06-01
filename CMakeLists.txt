@@ -13,7 +13,7 @@ if(NOT OPENGL_FOUND)
 endif(NOT OPENGL_FOUND)
 
 
-set(SOURCE_FILES main.c app.h init_.c opcodes.c util.c init_window.c render.c tick.c)
+set(SOURCE_FILES main.c app.h init_.c opcodes.c util.c init_window.c render.c tick.c audio.c)
 add_executable(chip8_temp ${SOURCE_FILES})
 
 if(WIN32)

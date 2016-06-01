@@ -35,9 +35,12 @@ typedef struct{
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_GLContext* gl_context;
-    SDL_AudioSpec* audio;
-    Uint8 *audio_pos;
-    Uint32 audio_len;
+
+    SDL_AudioSpec audio;
+    Uint32 audio_Length;
+    Uint8 *audio_Buffer;
+
+
 }CH8;
 
 
@@ -102,9 +105,12 @@ bool gfxInit(CH8* CH);
 void pixRender(CH8* CH);
 Uint32 delay(Uint32 time);
 
+//Audio
+bool Audio(unsigned char ST);
 
 //loop
 bool loop(CH8* CH);
 void keypress(CH8 *CH);
 void deconstructor(CH8* CH);
 #endif //CHIP8_TEMP_APP_H
+

@@ -71,8 +71,11 @@ bool init(CH8 *CH)
         fprintf(stderr, "failed to initiate GFX");
         return false;
     }
-
-
+    if(SDL_Init(SDL_INIT_AUDIO) != 0)
+    {
+        printf("SDL failed to initialize audio: %s\n", SDL_GetError());
+        return false;
+    }
 
     return true;
 }
