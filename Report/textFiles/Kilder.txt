@@ -4,5 +4,22 @@ Chip 8 Wikipedia (Generelt litt overalt, ingen quotes) https://en.wikipedia.org/
 
 Sekvensdiagrammer (Innledning/8XY1) https://www.ntnu.no/wiki/display/tdt4100/Sekvensdiagrammer
 
+Sprites (Tastatur & Grafikk, Innledningsdokument): https://en.wikipedia.org/wiki/Sprite_(computer_graphics)
+
+
+
+
+
+NB: Kilder som ikke har kildehenvisning her er våre originale og selvlagte. Men dobbelsjekk/spør i tilfelle.
+
+KILDER TIL FIGURER:
+
+Figur X.1 I innledningsdokumentet (Hexkode Tastatur): http://www.raduangelescu.com/images/keymapping.png
+
+Figur X.2 i Innledningsdokumentet (Opkode listen): https://en.wikipedia.org/wiki/CHIP-8
+
+
+
+
 
 
