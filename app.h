@@ -1,7 +1,3 @@
-//
-// Created by Kringle on 04/04/2016.
-//
-
 #ifndef CHIP8_TEMP_APP_H
 #define CHIP8_TEMP_APP_H
 

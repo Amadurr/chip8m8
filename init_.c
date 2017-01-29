@@ -1,6 +1,3 @@
-//
-// Created by Kringle on 04/04/2016.
-//
 #include "app.h"
 #include <time.h>
 #include <strings.h>
